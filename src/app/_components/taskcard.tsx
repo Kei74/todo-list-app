@@ -8,25 +8,23 @@ import {
   Button,
   Box,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 interface TaskCardProps {
   task: Task;
   toggleTaskCompletion: (task: Task) => void;
-  editTask: (taskId: string, newTitle: string, newDescription: string) => void;
-  deleteTask: (taskId: string) => void;
+  handleEditButtonClick: (task: Task) => void;
+  handleDeleteButtonClick: (task: Task) => void;
 }
 
-const TaskCard = React.memo(function TaskCard({ task, toggleTaskCompletion, editTask, deleteTask}: TaskCardProps) {
-
-  function handleEdit() {
-    
-  }
-
-  function handleDelete() {
-
-  }
+const TaskCard = React.memo(function TaskCard({ task, toggleTaskCompletion, handleEditButtonClick, handleDeleteButtonClick }: TaskCardProps) {
 
   return (
     <Card variant="outlined" sx={{ margin: 2, display: "flex" }}>
@@ -40,7 +38,7 @@ const TaskCard = React.memo(function TaskCard({ task, toggleTaskCompletion, edit
       </CardContent>
       <CardActions sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{
-          backgroundColor: task.completed? "success.light" : "grey.200",
+          backgroundColor: task.completed ? "success.light" : "grey.200",
           padding: 1,
           borderRadius: 1,
           display: "flex",
@@ -48,18 +46,18 @@ const TaskCard = React.memo(function TaskCard({ task, toggleTaskCompletion, edit
           alignItems: "center",
           width: "100%"
         }}>
-        <Checkbox
-          aria-label={`Mark ${task.title} as completed` }
-          color={task.completed ? "success" : "primary"}
-          checked={task.completed}
-          onChange={() => toggleTaskCompletion(task)}
-        />
+          <Checkbox
+            aria-label={`Mark ${task.title} as completed`}
+            color={task.completed ? "success" : "primary"}
+            checked={task.completed}
+            onChange={() => toggleTaskCompletion(task)}
+          />
         </Box>
         <Box>
-          <Button size="small" color="info">
+          <Button size="small" color="info" onClick={() => handleEditButtonClick(task)}>
             Edit
           </Button>
-          <Button size="small" color="error">
+          <Button size="small" color="error" onClick={() => handleDeleteButtonClick(task)}>
             Delete
           </Button>
         </Box>

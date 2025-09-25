@@ -1,19 +1,19 @@
 "use client";
 import Task from "@/types/task";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
 
 interface TaskContextType {
   tasks: Task[];
   addTask: (task: Task) => void;
   toggleTaskCompletion: (task: Task) => void;
-  editTask: (taskId: string, newTitle: string, newDescription: string) => void;
+  updateTask: (task: Task) => void;
   deleteTask: (taskId: string) => void;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
-const initialTasklist = [
+const seedTaskList: Task[] = [
   {
     id: "1",
     title: "Item 1 from Context",
@@ -37,7 +37,22 @@ const initialTasklist = [
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasklist);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    if(storedTasks)
+        setTasks(JSON.parse(storedTasks));
+    else
+      setTasks(seedTaskList);
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if(isMounted)
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks, isMounted]);
 
   function addTask(newTask: Task) {
     setTasks((prevTasklist) => [...prevTasklist, newTask]);
@@ -53,12 +68,12 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   }
 
-  function editTask(taskId: string, newTitle: string, newDescription: string) {
+  function updateTask(task: Task) {
     setTasks((prevTasklist) =>
-      prevTasklist.map((task) =>
-        task.id === taskId
-          ? { ...task, title: newTitle, description: newDescription }
-          : task
+      prevTasklist.map((prevTask) =>
+        prevTask.id === task.id
+          ? task
+          : prevTask
       )
     );
   }
@@ -71,7 +86,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <TaskContext.Provider
-      value={{ tasks, addTask, toggleTaskCompletion, editTask, deleteTask }}
+      value={{ tasks, addTask, toggleTaskCompletion, updateTask, deleteTask }}
     >
       {children}
     </TaskContext.Provider>
