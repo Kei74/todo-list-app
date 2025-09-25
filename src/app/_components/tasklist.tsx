@@ -51,6 +51,7 @@ function Tasklist() {
         updateTask(task);
         break;
       case "delete":
+        deleteTask(task);
         break;
       default:
         break;

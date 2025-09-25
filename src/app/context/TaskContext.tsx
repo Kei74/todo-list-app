@@ -8,7 +8,7 @@ interface TaskContextType {
   addTask: (task: Task) => void;
   toggleTaskCompletion: (task: Task) => void;
   updateTask: (task: Task) => void;
-  deleteTask: (taskId: string) => void;
+  deleteTask: (task: Task) => void;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -78,9 +78,9 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   }
 
-  function deleteTask(taskId: string) {
+  function deleteTask(task: Task) {
     setTasks((prevTasklist) =>
-      prevTasklist.filter((task) => task.id !== taskId)
+      prevTasklist.filter((prevTask) => prevTask.id !== task.id)
     );
   }
 
