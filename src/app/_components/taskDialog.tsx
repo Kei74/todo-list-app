@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useTaskContext } from "../context/TaskContext";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -8,7 +7,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormHelperText,
   TextField,
 } from "@mui/material";
 import Task from "@/types/task";
