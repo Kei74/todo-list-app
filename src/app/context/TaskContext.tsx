@@ -16,20 +16,32 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 const seedTaskList: Task[] = [
   {
     id: "1",
-    title: "Item 1 from Context",
-    description: "This is the first item in Tasklist.",
+    title: "Demo Task",
+    description: "Demo tasks present to demonstrate functionality.",
     completed: false,
   },
   {
     id: "2",
-    title: "Item 2",
-    description: "This is the second item in Tasklist.",
+    title: "Add Task",
+    description: "Click the \"Add Task\" button to add your own task.",
     completed: false,
   },
   {
     id: "3",
-    title: "Item 3",
-    description: "This is the third item in Tasklist.",
+    title: "Edit Task",
+    description: "Click the \"Edit\" button to edit task name or description.",
+    completed: false,
+  },
+  {
+    id: "3",
+    title: "Delete Task",
+    description: "Click the \"Delete\" button to delete task",
+    completed: true,
+  },
+  {
+    id: "3",
+    title: "MArk Task Complete",
+    description: "Click the checkbox to mark task as complete",
     completed: false,
   },
 ];
